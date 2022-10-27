@@ -50,7 +50,7 @@ int main(int argc, char* argv[]){ // executable <params.txt> <simparams.txt>
    vector<unsigned long> shape{simparams.xdomain, simparams.xdomain};
    vector<double> float_buff(f.data(), f.data()+f.size());
    vector<int> int_buff(f.data(), f.data()+f.size());
-   string folder = simparams.foldername;
+   string folder = simparams.foldername + "/";
 
    for(int t = 0; t<simparams.trange; t++){
       string time = to_string(t);

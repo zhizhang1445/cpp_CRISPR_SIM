@@ -4,7 +4,7 @@
 0
 5
 1
-"/simulation/"
+simulation
 
 # Read in this order
 # xdomain
