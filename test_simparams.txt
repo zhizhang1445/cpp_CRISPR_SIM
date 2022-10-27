@@ -1,0 +1,16 @@
+1000
+100
+0
+0
+5
+1
+"/simulation/"
+
+# Read in this order
+# xdomain
+# trange
+# init_x
+# init_y UNUSED
+# init_var
+# n_step_prior
+# outputname
