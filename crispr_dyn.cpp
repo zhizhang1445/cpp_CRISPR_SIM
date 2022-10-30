@@ -135,7 +135,7 @@ int mutation_jump(int flat_index, rmatrix<int> n, Parameters& params, SimParamet
     }
     default_random_engine generator;
     gamma_distribution<double> distribution(alpha, beta);
-    uniform_real_distribution<double> uni_dist(0.0, PI);
+    uniform_real_distribution<double> uni_dist(0.0, 2*PI);
 
     int num_muts = num_mutants(n_at_loc, params, simparams);
     

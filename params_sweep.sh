@@ -4,13 +4,13 @@ Params_to_sweep=R0
 Nh=10000
 N0=5000 
 R0=5      
-M=1    
+M=10    
 mu=0.1 
-gamma_shape=20   
+gamma_shape=2   
 Np=10 
 dc=3 
 h=4
-r=0 
+r=10 
 rho=5e-5 
 param_text="#The above parameters are interpreted in this specific order: # Nh # N0 # R0 # M # mu # gamma_shape # Np # dc # h # r # rho"
 
@@ -36,7 +36,7 @@ then mkdir $Parent_dir
 fi
 
 
-for R0 in {1..5}
+for R0 in {10..50..10}
 do
     Child_dir="${Parent_dir}simulation${R0}/" 
     mkdir $Child_dir

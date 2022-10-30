@@ -81,7 +81,7 @@ int update_nh(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters
 
     if (num_to_remove == 0){
         return 0;
-    }else {
+    } else {
         cerr << "check this: Nh didn't stay constant: " << num_to_remove << "\n";
         return 1;
     }
