@@ -56,7 +56,8 @@ int increment_polar2cartesian(rmatrix<int> n, double angle, double radius){
 
 int init_n(rmatrix<int> n, Parameters& params, SimParameters& simparams){
     n.fill(0);
-    default_random_engine generator;
+    random_device r;
+    default_random_engine generator(r());
     // cout << "center" << center << endl;
     normal_distribution<double> gaussian_dist(simparams.init_x, simparams.init_var); //magnitude
     uniform_real_distribution<double> uni_dist(0.0, PI); //angle
@@ -75,7 +76,8 @@ int init_n(rmatrix<int> n, Parameters& params, SimParameters& simparams){
 
 int init_nh(rmatrix<int> nh, Parameters& params, SimParameters& simparams){
     nh.fill(0);
-    default_random_engine generatror;
+    random_device r;
+    default_random_engine generatror(r());
     int flat_size = nh.size();
     // cout << "flat_size " << flat_size << "\n";
     uniform_int_distribution<int> distribution(0, flat_size-1);

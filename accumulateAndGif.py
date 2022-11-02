@@ -70,6 +70,10 @@ def main(start_time=0, end_time=1000000):
     makeGif(stack_n, "all_n")
     makeGif(stack_nh, "all_nh")
 
+    if not (os.path.isfile("params.txt")): {
+        exit()
+    }
+
     params = {}
     sim_params = { #parameters relevant for the simulation (including Inital Valuess)
         "dx":                         1,

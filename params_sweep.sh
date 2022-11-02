@@ -1,21 +1,21 @@
 #!/bin/bash
-Params_to_sweep=R0
+Params_to_sweep=r #Change this
 
 Nh=10000
 N0=5000 
 R0=5      
 M=10    
-mu=0.1 
-gamma_shape=2   
+mu=1 
+gamma_shape=20   
 Np=10 
 dc=3 
 h=4
-r=10 
-rho=5e-5 
+r=10
+rho=5e-5
 param_text="#The above parameters are interpreted in this specific order: # Nh # N0 # R0 # M # mu # gamma_shape # Np # dc # h # r # rho"
 
-xdomain=1000
-trange=100
+xdomain=10000
+trange=1000
 init_x=0
 init_y=0
 init_var=5
@@ -36,9 +36,9 @@ then mkdir $Parent_dir
 fi
 
 
-for R0 in {10..50..10}
+for r in {0..100..10} #And change this
 do
-    Child_dir="${Parent_dir}simulation${R0}/" 
+    Child_dir="${Parent_dir}simulation${r}/" #And change this 
     mkdir $Child_dir
     echo $Nh >> "${Child_dir}params.txt"
     echo $N0 >> "${Child_dir}params.txt"

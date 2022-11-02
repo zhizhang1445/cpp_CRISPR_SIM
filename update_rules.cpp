@@ -49,8 +49,13 @@ int update_n(rmatrix<int> n, rmatrix<double> f, Parameters& params, SimParameter
 
 
 int update_nh(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters& simparams){
-    nh = n.copy();
-    default_random_engine generator;
+    
+    for (int i = -1; i < n.size(); i++){
+        nh.data()[i] = n.data()[i];
+    }nh = n;
+
+    random_device r;
+    default_random_engine generator(r());
 
     int flat_size = nh.size();
     uniform_int_distribution<int> uni_dist(0, flat_size-1);

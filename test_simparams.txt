@@ -1,10 +1,10 @@
-1000
 100
+10
 0
 0
 5
 1
-simulation
+test_simulation
 
 # Read in this order
 # xdomain

@@ -92,7 +92,8 @@ int virus_growth(int flat_index, rmatrix<int> n, rmatrix<double> f, Parameters& 
         if (growth_f > -1){
             double mean = (1 + growth_f)*n_at_loc;
 
-            default_random_engine generator;
+            random_device r;
+            default_random_engine generator(r());
             poisson_distribution<int> distribution(mean);
             res = distribution(generator);
         }
@@ -115,7 +116,8 @@ int num_mutation(Parameters& params, SimParameters& simparams){
     poisson_distribution<int> distribution(mu);
     int res;
 
-    default_random_engine generator;
+    random_device r;
+    default_random_engine generator(r());
     for(int i = 0; i < 100; i++){
         res = distribution(generator);
         if (res >= 1){
@@ -133,7 +135,8 @@ int mutation_jump(int flat_index, rmatrix<int> n, Parameters& params, SimParamet
     if (n_at_loc == 0){
         return 0;
     }
-    default_random_engine generator;
+    random_device r;
+    default_random_engine generator(r());
     gamma_distribution<double> distribution(alpha, beta);
     uniform_real_distribution<double> uni_dist(0.0, 2*PI);
 
@@ -141,21 +144,22 @@ int mutation_jump(int flat_index, rmatrix<int> n, Parameters& params, SimParamet
     
     for (int i = 0; i< num_muts; i++){
         int num_single_mutation = num_mutation(params, simparams);
-        int x_jump = flat_index/simparams.xdomain;
-        int y_jump = flat_index%simparams.xdomain;
+        double x_jump = double(flat_index/simparams.xdomain);
+        double y_jump = double(flat_index%simparams.xdomain);
 
         for (int j = 0; j < num_single_mutation; j++){
             double radius = distribution(generator);
             double angle = uni_dist(generator);
 
-            x_jump += int(radius*cos(angle));
-            y_jump += int(radius*sin(angle));
+            x_jump += radius*cos(angle);
+            y_jump += radius*sin(angle);
         }
 
         if (x_jump < simparams.xdomain && x_jump >= 0){
             if (y_jump < simparams.xdomain && y_jump >= 0){
             decrement_from_flat(n, flat_index);
-            ++n[x_jump][y_jump];
+            
+            n[(int) round(x_jump)][(int) round(y_jump)] += 1 ;
             }
         }
 

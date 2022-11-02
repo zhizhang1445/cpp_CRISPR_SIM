@@ -1,6 +1,7 @@
 #ifndef CRISPR_DYN_H
 #define CRISPR_DYN_H
 #include "parameters.h"
+#include <rarray>
 #include <cmath>
 #include <gsl/gsl_randist.h>
 #include <random>

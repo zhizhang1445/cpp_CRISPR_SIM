@@ -51,6 +51,7 @@ int main(int argc, char* argv[]){ // executable <params.txt> <simparams.txt>
    vector<double> float_buff(f.data(), f.data()+f.size());
    vector<int> int_buff(f.data(), f.data()+f.size());
    string folder = simparams.foldername + "/";
+   
 
    for(int t = 0; t<simparams.trange; t++){
       string time = to_string(t);
@@ -66,6 +67,13 @@ int main(int argc, char* argv[]){ // executable <params.txt> <simparams.txt>
       // cout << nh << "\n";
 
       update_nh(nh, n, params, simparams);
+
+      // for (int i = -1; i < n.size(); i++){
+      //   if (nh.data()[i] != n.data()[i]){
+      //       cerr << "copy failed" << "\n"; 
+      //   }
+      // }
+
       int_buff.assign(nh.data(), nh.data()+nh.size());
       npy::SaveArrayAsNumpy(folder + path_nh + time + ext, fortran_ord, shape.size(), shape.data(), int_buff);
       // cout << nh << "\n";
