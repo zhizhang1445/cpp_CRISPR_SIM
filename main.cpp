@@ -44,20 +44,20 @@ int main(int argc, char* argv[]){ // executable <params.txt> <simparams.txt>
    // cout << nh << "\n";
 
    rmatrix<double> f(simparams.xdomain, simparams.xdomain);
-   init_f(f, params, simparams);
+   init_f(f, params, simparams);//Zero initilization cuz it's fitness
    // cout << f << "\n";
 
    vector<unsigned long> shape{simparams.xdomain, simparams.xdomain};
    vector<double> float_buff(f.data(), f.data()+f.size());
-   vector<int> int_buff(f.data(), f.data()+f.size());
+   vector<int> int_buff(f.data(), f.data()+f.size()); // MPI buffer
    string folder = simparams.foldername + "/";
    
 
    for(int t = 0; t<simparams.trange; t++){
-      string time = to_string(t);
+      string time = to_string(t); // fucking cpp
 
       update_f(f, nh, n, params, simparams);
-      float_buff.assign(f.data(), f.data()+f.size());
+      float_buff.assign(f.data(), f.data()+f.size()); 
       npy::SaveArrayAsNumpy(folder + path_f + time + ext, fortran_ord, shape.size(), shape.data(), float_buff);
       // cout << f << "\n";
 
@@ -68,15 +68,13 @@ int main(int argc, char* argv[]){ // executable <params.txt> <simparams.txt>
 
       update_nh(nh, n, params, simparams);
 
-      // for (int i = -1; i < n.size(); i++){
-      //   if (nh.data()[i] != n.data()[i]){
-      //       cerr << "copy failed" << "\n"; 
-      //   }
-      // }
 
       int_buff.assign(nh.data(), nh.data()+nh.size());
       npy::SaveArrayAsNumpy(folder + path_nh + time + ext, fortran_ord, shape.size(), shape.data(), int_buff);
       // cout << nh << "\n";
 
+      if (stop(n, params, simparams) == 1){
+         return 1;
+      };
    }
 }

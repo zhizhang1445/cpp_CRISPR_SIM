@@ -12,5 +12,6 @@ int increment_polar2cartesian(rmatrix<int> n, double angle, double radius); //an
 int init_n(rmatrix<int> n, Parameters& params, SimParameters& simparams);
 int init_nh(rmatrix<int> nh, Parameters& params, SimParameters& simparams);
 int init_f(rmatrix<double> f, Parameters& params, SimParameters& simparams);
+int stop(rmatrix<int> n, Parameters& params, SimParameters& simparams);
 
 #endif

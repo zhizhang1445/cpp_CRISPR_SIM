@@ -1,14 +1,14 @@
 #!/bin/bash
-Params_to_sweep=r #Change this
+Params_to_sweep=mu #Change this
 
 Nh=10000
-N0=5000 
+N0=500 
 R0=5      
-M=10    
-mu=1 
+M=10
+mu=0.1 
 gamma_shape=20   
 Np=10 
-dc=3 
+dc=1
 h=4
 r=10
 rho=5e-5
@@ -20,6 +20,7 @@ init_x=0
 init_y=0
 init_var=5
 n_step_prior=1
+exp_ratio=10
 simparam_text="#The above parameters are interpreted in this specific order: # xdomain # trange # init_x # init_y UNUSED # init_var # n_step_prior # outputfolder" 
 
 
@@ -36,9 +37,9 @@ then mkdir $Parent_dir
 fi
 
 
-for r in {0..100..10} #And change this
+for mu in {0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100} #And change this
 do
-    Child_dir="${Parent_dir}simulation${r}/" #And change this 
+    Child_dir="${Parent_dir}simulation${mu}/" #And change this 
     mkdir $Child_dir
     echo $Nh >> "${Child_dir}params.txt"
     echo $N0 >> "${Child_dir}params.txt"
@@ -59,6 +60,7 @@ do
     echo $init_y >> "${Child_dir}simparams.txt"
     echo $init_var >> "${Child_dir}simparams.txt"
     echo $n_step_prior >> "${Child_dir}simparams.txt"
+    echo $exp_ratio >> "${Child_dir}simparams.txt"
     echo $Child_dir >> "${Child_dir}simparams.txt"
     echo $simparam_text >> "${Child_dir}simparams.txt"
 

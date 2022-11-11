@@ -4,6 +4,7 @@
 0
 5
 1
+10
 test_simulation
 
 # Read in this order
@@ -13,4 +14,5 @@ test_simulation
 # init_y UNUSED
 # init_var
 # n_step_prior
+# ratio_exp
 # outputname

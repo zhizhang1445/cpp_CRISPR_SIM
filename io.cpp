@@ -37,6 +37,7 @@ int readandAssignSimParams(char* filename, SimParameters& simparams){
         infile >> simparams.init_y;
         infile >> simparams.init_var;
         infile >> simparams.n_step_prior;
+        infile >> simparams.exp_ratio;
         infile >> simparams.foldername;
         infile.close();
  
@@ -46,4 +47,4 @@ int readandAssignSimParams(char* filename, SimParameters& simparams){
         std::cerr << "Error while reading file '" << filename << "'.\n";
         return 1;
     }
-}; 
+};

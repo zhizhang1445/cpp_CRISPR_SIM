@@ -27,6 +27,7 @@ class SimParameters{
         double                    init_y;
         double                  init_var;          
         long int            n_step_prior;
+        int                    exp_ratio;
         string                foldername;
 };
 

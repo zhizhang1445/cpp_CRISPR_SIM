@@ -93,3 +93,12 @@ int init_nh(rmatrix<int> nh, Parameters& params, SimParameters& simparams){
 int init_f(rmatrix<double> f, Parameters& params, SimParameters& simparams){
     f.fill(0);
 };
+
+int stop(rmatrix<int> n, Parameters& params, SimParameters& simparams){
+    int tt_phage = accumulate(n.begin(), n.end(), 0);
+    if (tt_phage > simparams.exp_ratio*params.Nh or tt_phage <= 0){
+        cerr << "stopped because of population explosion" << endl;
+        return 1;
+    }
+    return 0;
+};
