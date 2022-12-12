@@ -1,12 +1,13 @@
-#include "update_rules.h"
+#include "omp_update_rules.h"
 
-int update_f_mpi(int& rank, rmatrix<double> f, rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters& simparams){
+int update_f_omp(rmatrix<double> f, rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters& simparams){
     double R0 = params.R0;
     int Nh = params.Nh;
 
     rmatrix<double> eff_p(nh.shape());
     coverage(eff_p, nh, params, simparams);
 
+    #pragma for
     for(int i = 0; i < f.size(); i++){
         if (n.data()[i] == 0){
             f.data()[i] = 0;
@@ -33,26 +34,29 @@ double log_prob_inf(int flat_index, rmatrix<double> eff_p, Parameters& params, S
     }
 };
 
-int update_n_mpi(int& rank, rmatrix<int> n, rmatrix<double> f, Parameters& params, SimParameters& simparams){
+int update_n_omp(rmatrix<int> n, rmatrix<double> f, Parameters& params, SimParameters& simparams){
     int tt_length = n.size();
     
+    #pragma for
     for (int i = 0; i < tt_length; i++){
         virus_growth(i, n, f, params, simparams);
     }
 
+    #pragma for 
     for (int i = 0; i < tt_length; i++){
-        mutation_jump(i, n, params, simparams);
+        mutation_jump(i, n, params, simparams); // This might go horribly wrong
     }
     // cerr << "update_n error" << "\n";
     return 0;
 };
 
 
-int update_nh_mpi(int& rank, rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters& simparams){
+int update_nh_omp(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters& simparams){
     
+    #pragma for
     for (int i = -1; i < n.size(); i++){
         nh.data()[i] = n.data()[i];
-    }nh = n;
+    }
 
     random_device r;
     default_random_engine generator(r());
