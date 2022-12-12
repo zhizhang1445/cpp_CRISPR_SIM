@@ -1,21 +1,22 @@
 #!/bin/bash
-Params_to_sweep=mu #Change this
+Params_to_sweep=R0 #Change this
 
 Nh=10000
-N0=500 
-R0=5      
+N0=500
+R0=10
+
 M=10
-mu=0.1 
-gamma_shape=20   
-Np=10 
+mu=0.0001
+gamma_shape=20
+Np=10
 dc=1
 h=4
 r=10
 rho=5e-5
 param_text="#The above parameters are interpreted in this specific order: # Nh # N0 # R0 # M # mu # gamma_shape # Np # dc # h # r # rho"
 
-xdomain=10000
-trange=1000
+xdomain=1000
+trange=100
 init_x=0
 init_y=0
 init_var=5
@@ -24,22 +25,16 @@ exp_ratio=10
 simparam_text="#The above parameters are interpreted in this specific order: # xdomain # trange # init_x # init_y UNUSED # init_var # n_step_prior # outputfolder" 
 
 
+Parent_dir="Simulation_N0${N0}_R0${R0}_mu${mu}_Np${Np}_r${r}_x${xdomain}_t${trange}/"
 
-
-if [ -d "${Params_to_sweep}_simulation/" ]
-then rm -rf "${Params_to_sweep}_simulation/"
+if [ -d $Parent_dir ] then 
+rm -rf $Parent_dir
+mkdir $Parent_dir
 fi
 
-Parent_dir="${Params_to_sweep}_simulation/"
-
-if [ ! -d $Parent_dir ]
-then mkdir $Parent_dir
-fi
-
-
-for mu in {0.000001,0.00001,0.0001,0.001,0.01,0.1,1,10,100} #And change this
+for R0 in {10} #And change this
 do
-    Child_dir="${Parent_dir}simulation${mu}/" #And change this 
+    Child_dir="${Parent_dir}simulation${R0}/" #And change this 
     mkdir $Child_dir
     echo $Nh >> "${Child_dir}params.txt"
     echo $N0 >> "${Child_dir}params.txt"
@@ -66,4 +61,4 @@ do
 
     ./CRISPR_wave_main ${Child_dir}params.txt ${Child_dir}simparams.txt
     python3 accumulateAndGif.py ${Child_dir}
-done 
+done

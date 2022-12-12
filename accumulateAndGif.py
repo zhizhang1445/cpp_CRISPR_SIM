@@ -32,7 +32,12 @@ def write2json(name, params, sim_params):
         json.dump(sim_params, fp)
 
 def main(start_time=0, end_time=1000000):
+    
     if len(sys.argv) > 1 :
+        foldername = sys.argv[1]
+        if(not os.path.isdir(foldername)):{
+            os.mkdir(foldername)
+        }
         os.chdir(sys.argv[1])
 
     stack_f = []
@@ -104,6 +109,7 @@ def main(start_time=0, end_time=1000000):
     sim_params["initial_mean"] = [loc_x, loc_y]
     sim_params["inital_var"] = float(file.readline().strip())
     sim_params["n_step_prior"] = int(file.readline().strip())
+    sim_params["ratio_exp"] = int(file.readline().strip())
 
     write2json("", params, sim_params)
     return 0
