@@ -87,6 +87,7 @@ int virus_growth(int flat_index, rmatrix<int> n, rmatrix<double> f, Parameters& 
 
         if (growth_f <= -1) {
             res = 0;
+            n.data()[flat_index] = res;
         }
 
         if (growth_f > -1){
@@ -96,10 +97,11 @@ int virus_growth(int flat_index, rmatrix<int> n, rmatrix<double> f, Parameters& 
             default_random_engine generator(r());
             poisson_distribution<int> distribution(mean);
             res = distribution(generator);
+            n.data()[flat_index] = res;
         }
-        return res;
+        return res; // oh I'm a FUCKING IDIOT 
     }
-    return 0;
+    return -1;
 };
 
 int num_mutants(int n_at_loc, Parameters& params, SimParameters& simparams){
@@ -155,11 +157,14 @@ int mutation_jump(int flat_index, rmatrix<int> n, Parameters& params, SimParamet
             y_jump += radius*sin(angle);
         }
 
-        if (x_jump < simparams.xdomain && x_jump >= 0){
-            if (y_jump < simparams.xdomain && y_jump >= 0){
-            decrement_from_flat(n, flat_index);
+        int int_x_jump = (int) round(x_jump);
+        int int_y_jump = (int) round(y_jump);
+
+        if (int_x_jump < simparams.xdomain && int_x_jump >= 0){
+            if (int_y_jump < simparams.xdomain && int_y_jump >= 0){
+                decrement_from_flat(n, flat_index);
             
-            n[(int) round(x_jump)][(int) round(y_jump)] += 1 ;
+                ++n[int_x_jump][int_y_jump];
             }
         }
 

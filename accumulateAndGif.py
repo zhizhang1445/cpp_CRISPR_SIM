@@ -18,17 +18,60 @@ def makeGif(frame_stack, name):
     ani = animation.ArtistAnimation(
         fig, animation_frames, interval=50, blit=False, repeat_delay=1000)
 
-    # FFwriter = animation.PillowWriter(fps=60)
+    writer = animation.ImageMagickWriter(fps=60)
 
-    ani.save(name + ".gif")
+    ani.save(name + ".gif", writer=writer)
     plt.close()
     return 0
 
-def write2json(name, params, sim_params):
-    with open(name + '_params.json', 'w') as fp:
+def readParameters(fileNameString, typeParams = True):
+
+    if fileNameString in {"params.txt", "Params.txt"} :
+        typeParams = True
+    elif fileNameString in {"simparams.txt", "sim_params.txt", "Simparams.txt", "Sim_Params.txt"} :
+        typeParams = False
+    else:
+        return ValueError
+
+
+    if typeParams:
+        params = {}
+        file = open("params.txt", "r")
+        params["Nh"] = int(file.readline().strip())
+        params["N0"] = int(file.readline().strip())
+        params["R0"] = int(file.readline().strip())
+        params["M"] = int(file.readline().strip())
+        params["mu"] = float(file.readline().strip())
+        params["gamma_shape"] = float(file.readline().strip())
+        params["Np"] = int(file.readline().strip())
+        params["dc"] = int(file.readline().strip())
+        params["h"] = int(file.readline().strip())
+        params["r"] = float(file.readline().strip())
+        params["rho"] = float(file.readline().strip())
+        return params
+    
+    if not typeParams:
+        sim_params = { #parameters relevant for the simulation (including Inital Valuess)
+        "dx":                         1,
+        "t0":                         0, 
+        "dt":                         1,
+        }
+        file = open("simparams.txt", "r")
+        sim_params["xdomain"] = int(file.readline().strip())
+        sim_params["tf"] = int(file.readline().strip())
+        loc_x = float(file.readline().strip())
+        loc_y = float(file.readline().strip())
+        sim_params["initial_mean"] = [loc_x, loc_y]
+        sim_params["inital_var"] = float(file.readline().strip())
+        sim_params["n_step_prior"] = int(file.readline().strip())
+        sim_params["ratio_exp"] = int(file.readline().strip())
+        return sim_params
+
+def write2json(prefixName, params, sim_params):
+    with open(prefixName + '_params.json', 'w') as fp:
         json.dump(params, fp)
 
-    with open(name + '_sim_params.json', 'w') as fp:
+    with open(prefixName + '_sim_params.json', 'w') as fp:
         json.dump(sim_params, fp)
 
 def main(start_time=0, end_time=1000000):
@@ -79,39 +122,10 @@ def main(start_time=0, end_time=1000000):
         exit()
     }
 
-    params = {}
-    sim_params = { #parameters relevant for the simulation (including Inital Valuess)
-        "dx":                         1,
-        "t0":                         0, 
-        "dt":                         1,
-    }
+    params = readParameters("params.txt")
+    simparams = readParameters("simparams.txt")
 
-    file = open("params.txt", "r")
-    params["Nh"] = int(file.readline().strip())
-    params["N0"] = int(file.readline().strip())
-    params["R0"] = int(file.readline().strip())
-    params["M"] = int(file.readline().strip())
-    params["mu"] = float(file.readline().strip())
-    params["gamma_shape"] = float(file.readline().strip())
-    params["Np"] = int(file.readline().strip())
-    params["dc"] = int(file.readline().strip())
-    params["h"] = int(file.readline().strip())
-    params["r"] = float(file.readline().strip())
-    params["rho"] = float(file.readline().strip())
-
-    
-    
-    file = open("simparams.txt", "r")
-    sim_params["xdomain"] = int(file.readline().strip())
-    sim_params["tf"] = int(file.readline().strip())
-    loc_x = float(file.readline().strip())
-    loc_y = float(file.readline().strip())
-    sim_params["initial_mean"] = [loc_x, loc_y]
-    sim_params["inital_var"] = float(file.readline().strip())
-    sim_params["n_step_prior"] = int(file.readline().strip())
-    sim_params["ratio_exp"] = int(file.readline().strip())
-
-    write2json("", params, sim_params)
+    write2json("", params, simparams)
     return 0
 
 if __name__ == "__main__":

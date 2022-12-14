@@ -3,6 +3,7 @@
 #include <cmath>
 #include <random>
 #include <numeric>
+#include <vector>
 #include <gsl/gsl_randist.h>
 #include "rarray"
 #include "parameters.h"

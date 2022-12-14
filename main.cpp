@@ -48,33 +48,41 @@ int main(int argc, char* argv[]){ // executable <params.txt> <simparams.txt>
    // cout << f << "\n";
 
    vector<unsigned long> shape{simparams.xdomain, simparams.xdomain};
-   vector<double> float_buff(f.data(), f.data()+f.size());
-   vector<int> int_buff(f.data(), f.data()+f.size()); // MPI buffer
+   vector<double> f_buff(f.data(), f.data()+f.size());
+   vector<int> n_buff(n.data(), n.data()+n.size()); // MPI buffer
+   // vector<int> buff_prev(n.data(), n.data()+n.size()); // MPI buffer
+   vector<int> nh_buff(n.data(), nh.data()+nh.size()); // MPI buffer
    string folder = simparams.foldername + "/";
    
 
    for(int t = 0; t<simparams.trange; t++){
+
       string time = to_string(t); // fucking cpp
+      npy::SaveArrayAsNumpy(folder + path_f + time + ext, fortran_ord, shape.size(), shape.data(), f_buff);
+      npy::SaveArrayAsNumpy(folder + path_n + time + ext, fortran_ord, shape.size(), shape.data(), n_buff);
+      npy::SaveArrayAsNumpy(folder + path_nh + time + ext, fortran_ord, shape.size(), shape.data(), nh_buff);
 
       update_f(f, nh, n, params, simparams);
-      float_buff.assign(f.data(), f.data()+f.size()); 
-      npy::SaveArrayAsNumpy(folder + path_f + time + ext, fortran_ord, shape.size(), shape.data(), float_buff);
-      // cout << f << "\n";
+      f_buff.assign(f.data(), f.data()+f.size()); 
 
+      // buff_prev.assign(n.data(), n.data()+n.size());
       update_n(n, f, params, simparams);
-      int_buff.assign(n.data(), n.data()+n.size());
-      npy::SaveArrayAsNumpy(folder + path_n + time + ext, fortran_ord, shape.size(), shape.data(), int_buff);
+      n_buff.assign(n.data(), n.data()+n.size());
       // cout << nh << "\n";
 
+      // buff_prev.assign(nh.data(), nh.data()+nh.size());
       update_nh(nh, n, params, simparams);
-
-
-      int_buff.assign(nh.data(), nh.data()+nh.size());
-      npy::SaveArrayAsNumpy(folder + path_nh + time + ext, fortran_ord, shape.size(), shape.data(), int_buff);
+      nh_buff.assign(nh.data(), nh.data()+nh.size());
       // cout << nh << "\n";
 
       if (stop(n, params, simparams) == 1){
+         cerr << "Stopped at t=" << time << endl;
          return 1;
-      };
+      }
+
+      // if (buff_prev == n_buff){
+      //    cerr << "Did not update at: " << time << "\n";
+      //    return 4;
+      // }
    }
 }

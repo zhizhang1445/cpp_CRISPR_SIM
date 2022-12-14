@@ -4,5 +4,8 @@
 /r2_simulation
 /mu_simulation
 /test_simulation
+/compiled_script
 .gitignore
+SimulationNh100No200Ro10mu1e-4Np10r10x50t100/
+        test_simulation_omp/
 

@@ -54,7 +54,7 @@ int update_n_omp(rmatrix<int> n, rmatrix<double> f, Parameters& params, SimParam
 int update_nh_omp(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters& simparams){
     
     #pragma for
-    for (int i = -1; i < n.size(); i++){
+    for (int i = 0; i < n.size(); i++){
         nh.data()[i] = n.data()[i];
     }
 

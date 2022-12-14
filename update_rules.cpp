@@ -36,23 +36,30 @@ double log_prob_inf(int flat_index, rmatrix<double> eff_p, Parameters& params, S
 int update_n(rmatrix<int> n, rmatrix<double> f, Parameters& params, SimParameters& simparams){
     int tt_length = n.size();
     
+    // vector<int> prev_n(tt_length); prev_n.assign(n.data(), n.data()+n.size());
+
     for (int i = 0; i < tt_length; i++){
         virus_growth(i, n, f, params, simparams);
     }
 
+    // vector<int> curr_n(tt_length); curr_n.assign(n.data(), n.data()+n.size());
+
     for (int i = 0; i < tt_length; i++){
-        mutation_jump(i, n, params, simparams);
+        mutation_jump(i, n, params, simparams); //this is always where th sef fault lies
     }
-    // cerr << "update_n error" << "\n";
+
+    // if (prev_n == curr_n) {
+    //     cerr << "update_n error" << "\n";
+    // }
     return 0;
 };
 
 
 int update_nh(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters& simparams){
     
-    for (int i = -1; i < n.size(); i++){
+    for (int i = 0; i < n.size(); i++){
         nh.data()[i] = n.data()[i];
-    }nh = n;
+    }
 
     random_device r;
     default_random_engine generator(r());
