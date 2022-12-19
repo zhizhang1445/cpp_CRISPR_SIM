@@ -33,9 +33,17 @@ int main(int argc, char **argv) {
 
 	int errcode = readandAssignParams(argv[1], params);
 	int errcode2 = readandAssignSimParams(argv[2], simparams);
+	
+
 	if (errcode == 1 or errcode2 == 1){
 		cerr << "lmao last check failed \n";
 		return errcode;
+	}
+	
+	if (simparams.norm_f){
+		cout << "normalizing f happens: norm_f = 1" << "\n";
+	} else {
+		cout << "normalizing f does not happen: norm_f = 0" << "\n";
 	}
 
 	rmatrix<double> f(simparams.xdomain, simparams.xdomain);
@@ -53,7 +61,7 @@ int main(int argc, char **argv) {
 	vector<int> nh_buff(n.data(), nh.data()+nh.size()); // MPI buffer
 	string folder = simparams.foldername + "/";
    
-	// #pragma omp parallel default(none) shared(f, nh, n, params, simparams)
+	#pragma omp parallel default(none) shared(f, nh, n, params, simparams)
 	// #pragma omp parallel default(none) shared(f, nh, n, params, simparams) reduction(+:n sum)
 
 	for(int t = 0; t<simparams.trange; t++){

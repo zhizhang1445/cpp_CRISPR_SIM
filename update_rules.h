@@ -16,5 +16,6 @@ int update_f(rmatrix<double> f, rmatrix<int> nh, rmatrix<int> n, Parameters& par
 double log_prob_inf(int flat_index, rmatrix<double> eff_p, Parameters& params, SimParameters& simparams);
 int update_n(rmatrix<int> n, rmatrix<double> f, Parameters& params, SimParameters& simparams);
 int update_nh(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters& simparams);
+int normalize_f(rmatrix<double> f, Parameters& params, SimParameters& simparams);
 
 #endif

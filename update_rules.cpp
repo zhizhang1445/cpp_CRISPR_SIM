@@ -16,6 +16,10 @@ int update_f(rmatrix<double> f, rmatrix<int> nh, rmatrix<int> n, Parameters& par
         }
     }
 
+    if (simparams.norm_f){
+        normalize_f(f, params, simparams);
+    }
+
     return 0;
 };
 
@@ -98,3 +102,13 @@ int update_nh(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters
         return 1;
     }
 };
+
+int normalize_f(rmatrix<double> f, Parameters& params, SimParameters& simparams){
+    double f_avg = accumulate(f.data(), f.data()+f.size(), 0)/f.size();
+
+    for(int i=0; i<f.size(); i++){
+        f.data()[i] = f.data()[i]-f_avg;
+    }
+
+    return 0;
+}

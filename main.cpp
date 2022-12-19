@@ -35,6 +35,12 @@ int main(int argc, char* argv[]){ // executable <params.txt> <simparams.txt>
       return errcode;
    }
 
+   if (simparams.norm_f){
+		cout << "normalizing f happens: norm_f = 1" << "\n";
+	} else {
+		cout << "normalizing f does not happen: norm_f = 0" << "\n";
+	}
+
    rmatrix<int> n(simparams.xdomain, simparams.xdomain);
    init_n(n, params, simparams); // initialized by gaussian modulated to int
    // cout << n << "\n";
@@ -63,7 +69,7 @@ int main(int argc, char* argv[]){ // executable <params.txt> <simparams.txt>
       npy::SaveArrayAsNumpy(folder + path_nh + time + ext, fortran_ord, shape.size(), shape.data(), nh_buff);
 
       update_f(f, nh, n, params, simparams);
-      f_buff.assign(f.data(), f.data()+f.size()); 
+      f_buff.assign(f.data(), f.data()+f.size());
 
       // buff_prev.assign(n.data(), n.data()+n.size());
       update_n(n, f, params, simparams);

@@ -17,6 +17,10 @@ int update_f_omp(rmatrix<double> f, rmatrix<int> nh, rmatrix<int> n, Parameters&
         }
     }
 
+    if (simparams.norm_f){
+        normalize_f_omp(f, params, simparams);
+    }
+
     return 0;
 };
 
@@ -94,3 +98,15 @@ int update_nh_omp(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParame
         return 1;
     }
 };
+
+int normalize_f_omp(rmatrix<double> f, Parameters& params, SimParameters& simparams){
+    double f_avg = accumulate(f.data(), f.data()+f.size(), 0)/f.size();
+
+    #pragma for
+    for(int i=0; i<f.size(); i++){
+        f.data()[i] = f.data()[i]-f_avg;
+    }
+
+    return 0;
+}
+

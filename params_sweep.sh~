@@ -22,11 +22,10 @@ init_y=0
 init_var=5
 n_step_prior=1
 exp_ratio=10
-norm_f=False
 simparam_text="#The above parameters are interpreted in this specific order: # xdomain # trange # init_x # init_y UNUSED # init_var # n_step_prior # outputfolder" 
 
 
-Parent_dir="SimulationNh${Nh}No${N0}Ro${R0}mu${mu}Np${Np}r${r}x${xdomain}t${trange}norm${norm_f}/"
+Parent_dir="SimulationNh${Nh}No${N0}Ro${R0}mu${mu}Np${Np}r${r}x${xdomain}t${trange}/"
 
 if [ -d $Parent_dir ] 
 then 
@@ -37,9 +36,9 @@ mkdir $Parent_dir
 
 sweep_index=0
 
-for R0 in $(seq 1 0.1 10) #And change this
+for R0 in {1..10..0.5} #And change this
 do
-    Child_dir="${Parent_dir}simulation${sweep_index}/" 
+    Child_dir="${Parent_dir}simulation${sweep_index}/" #And change this 
     mkdir $Child_dir
     echo $Nh >> "${Child_dir}params.txt"
     echo $N0 >> "${Child_dir}params.txt"
@@ -61,7 +60,6 @@ do
     echo $init_var >> "${Child_dir}simparams.txt"
     echo $n_step_prior >> "${Child_dir}simparams.txt"
     echo $exp_ratio >> "${Child_dir}simparams.txt"
-    echo $norm_f >> "${Child_dir}simparams.txt"
     echo $Child_dir >> "${Child_dir}simparams.txt"
     echo $simparam_text >> "${Child_dir}simparams.txt"
 

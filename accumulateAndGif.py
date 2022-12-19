@@ -65,6 +65,7 @@ def readParameters(fileNameString, typeParams = True):
         sim_params["inital_var"] = float(file.readline().strip())
         sim_params["n_step_prior"] = int(file.readline().strip())
         sim_params["ratio_exp"] = int(file.readline().strip())
+        sim_params["norm_f"] = bool(file.readline().strip())
         return sim_params
 
 def write2json(prefixName, params, sim_params):

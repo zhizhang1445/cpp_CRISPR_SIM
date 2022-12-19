@@ -5,6 +5,7 @@
 5
 1
 10
+True
 test_simulation
 
 # Read in this order
@@ -15,4 +16,5 @@ test_simulation
 # init_var
 # n_step_prior
 # ratio_exp
+# norm_f
 # outputname
