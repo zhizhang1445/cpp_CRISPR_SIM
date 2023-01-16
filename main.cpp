@@ -35,12 +35,14 @@ int main(int argc, char* argv[]){ // executable <params.txt> <simparams.txt>
       return errcode;
    }
 
-   if (simparams.norm_f){
-		cout << "normalizing f happens: norm_f = 1" << "\n";
-	} else {
-		cout << "normalizing f does not happen: norm_f = 0" << "\n";
-	}
+   // Code below is to remind you of what norm does
+   // if (simparams.norm_f){
+	// 	cout << "normalizing f happens: norm_f = 1" << "\n";
+	// } else {
+	// 	cout << "normalizing f does not happen: norm_f = 0" << "\n";
+	// }
 
+   // rarray is preffered for me but they are ROW ordered so the indice is [row, column]
    rmatrix<int> n(simparams.xdomain, simparams.xdomain);
    init_n(n, params, simparams); // initialized by gaussian modulated to int
    // cout << n << "\n";
@@ -53,17 +55,17 @@ int main(int argc, char* argv[]){ // executable <params.txt> <simparams.txt>
    init_f(f, params, simparams);//Zero initilization cuz it's fitness
    // cout << f << "\n";
 
+   // SaveArrayAsNumpy needs vectors so I'm making one to it.
    vector<unsigned long> shape{simparams.xdomain, simparams.xdomain};
-   vector<double> f_buff(f.data(), f.data()+f.size());
-   vector<int> n_buff(n.data(), n.data()+n.size()); // MPI buffer
-   // vector<int> buff_prev(n.data(), n.data()+n.size()); // MPI buffer
-   vector<int> nh_buff(n.data(), nh.data()+nh.size()); // MPI buffer
+   vector<double> f_buff(f.size());
+   vector<int> n_buff(n.size()); 
+   vector<int> nh_buff(nh.size()); 
    string folder = simparams.foldername + "/";
    
 
    for(int t = 0; t<simparams.trange; t++){
 
-      string time = to_string(t); // fucking cpp
+      string time = to_string(t); // fucking cpp saving them in numpy is faster
       npy::SaveArrayAsNumpy(folder + path_f + time + ext, fortran_ord, shape.size(), shape.data(), f_buff);
       npy::SaveArrayAsNumpy(folder + path_n + time + ext, fortran_ord, shape.size(), shape.data(), n_buff);
       npy::SaveArrayAsNumpy(folder + path_nh + time + ext, fortran_ord, shape.size(), shape.data(), nh_buff);
@@ -71,24 +73,17 @@ int main(int argc, char* argv[]){ // executable <params.txt> <simparams.txt>
       update_f(f, nh, n, params, simparams);
       f_buff.assign(f.data(), f.data()+f.size());
 
-      // buff_prev.assign(n.data(), n.data()+n.size());
       update_n(n, f, params, simparams);
       n_buff.assign(n.data(), n.data()+n.size());
-      // cout << nh << "\n";
 
-      // buff_prev.assign(nh.data(), nh.data()+nh.size());
       update_nh(nh, n, params, simparams);
       nh_buff.assign(nh.data(), nh.data()+nh.size());
-      // cout << nh << "\n";
 
+      // So you can easily see when does the time stops.
       if (stop(n, params, simparams) == 1){
          cerr << "Stopped at t=" << time << endl;
          return 1;
       }
-
-      // if (buff_prev == n_buff){
-      //    cerr << "Did not update at: " << time << "\n";
-      //    return 4;
-      // }
    }
 }
+

@@ -40,11 +40,11 @@ int main(int argc, char **argv) {
 		return errcode;
 	}
 	
-	if (simparams.norm_f){
-		cout << "normalizing f happens: norm_f = 1" << "\n";
-	} else {
-		cout << "normalizing f does not happen: norm_f = 0" << "\n";
-	}
+	// if (simparams.norm_f){
+	// 	cout << "normalizing f happens: norm_f = 1" << "\n";
+	// } else {
+	// 	cout << "normalizing f does not happen: norm_f = 0" << "\n";
+	// }
 
 	rmatrix<double> f(simparams.xdomain, simparams.xdomain);
 	init_f(f, params, simparams);//Zero initilization cuz it's fitness

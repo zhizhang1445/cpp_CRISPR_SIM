@@ -6,7 +6,7 @@
 1
 1000
 0
-test_simulation_omp
+test_simulation
 
 # Read in this order
 # xdomain

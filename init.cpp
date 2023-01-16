@@ -2,8 +2,10 @@
 #include "init.h"
 #include <random>
 #include <cmath>
-using namespace std;
+using namespace std; //I should really remove this but its kinda hard Forgive me
 
+
+// increment function is very useful 
 int increment_from_flat(rmatrix<int> n, int flat_index){
     int tt_size = n.size();
     // const int shape_ar[2] = {n.shape()};
@@ -13,7 +15,7 @@ int increment_from_flat(rmatrix<int> n, int flat_index){
         return 1;
     }
 
-    ++n.data()[flat_index];
+    ++n.data()[flat_index]; // ++ before makes it assign new before returning it.
     return 0;
 }
 
@@ -29,7 +31,7 @@ int decrement_from_flat(rmatrix<int> n, int flat_index){
         return 1;
     }
 
-    --n.data()[flat_index];
+    --n.data()[flat_index]; //Similar for decrement, the decrement is done before. 
     return 0;
 }
 
@@ -41,7 +43,7 @@ int increment_polar2cartesian(rmatrix<int> n, double angle, double radius){
     int y_ind = int(radius*sin(angle)+center_y);
     // cout << x_ind << "&" << y_ind << "\n";
 
-    if (x_ind >= n.shape()[0] or x_ind < 0){
+    if (x_ind >= n.shape()[0] or x_ind < 0){ //Array out of bounds check
         return 1;
     }
 
@@ -49,7 +51,7 @@ int increment_polar2cartesian(rmatrix<int> n, double angle, double radius){
         return 1;
     }
 
-    ++n[x_ind][y_ind];
+    ++n[x_ind][y_ind];//Increment successful
     return 0;
 };
 
@@ -57,7 +59,7 @@ int increment_polar2cartesian(rmatrix<int> n, double angle, double radius){
 int init_n(rmatrix<int> n, Parameters& params, SimParameters& simparams){
     n.fill(0);
     random_device r;
-    default_random_engine generator(r());
+    default_random_engine generator(r()); // I have no idea wheter creating a random engine is right or not but I'm not passing it
     // cout << "center" << center << endl;
     normal_distribution<double> gaussian_dist(simparams.init_x, simparams.init_var); //magnitude
     uniform_real_distribution<double> uni_dist(0.0, PI); //angle
@@ -91,10 +93,10 @@ int init_nh(rmatrix<int> nh, Parameters& params, SimParameters& simparams){
 };
 
 int init_f(rmatrix<double> f, Parameters& params, SimParameters& simparams){
-    f.fill(0);
+    f.fill(0); //No initialization, I should probably make those nonspecific
 };
 
-int stop(rmatrix<int> n, Parameters& params, SimParameters& simparams){
+int stop(rmatrix<int> n, Parameters& params, SimParameters& simparams){ // Stop Conditions important because our host cannot die
     int tt_phage = accumulate(n.begin(), n.end(), 0);
     if (tt_phage > simparams.exp_ratio*params.Nh){
         cerr << "stopped because of population explosion" << endl;

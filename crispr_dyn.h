@@ -7,7 +7,7 @@
 #include <random>
 using namespace std;
 
-double hill_functio_alpha(int d, Parameters& params);
+double hill_function_alpha(int d, Parameters& params);
 int coverage(rmatrix<double> eff_p, rmatrix<int> nh, Parameters& params, SimParameters& simparams);
 double p_0_spacer(int flat_index, rmatrix<double> eff_p, Parameters& params, SimParameters& simparams);
 double p_1_spacer(int flat_index, rmatrix<double> eff_p, Parameters& params, SimParameters& simparams);

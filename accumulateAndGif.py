@@ -24,6 +24,7 @@ def makeGif(frame_stack, name):
     plt.close()
     return 0
 
+
 def readParameters(fileNameString, typeParams = True):
 
     if fileNameString in {"params.txt", "Params.txt"} :
@@ -39,7 +40,7 @@ def readParameters(fileNameString, typeParams = True):
         file = open("params.txt", "r")
         params["Nh"] = int(file.readline().strip())
         params["N0"] = int(file.readline().strip())
-        params["R0"] = int(file.readline().strip())
+        params["R0"] = float(file.readline().strip())
         params["M"] = int(file.readline().strip())
         params["mu"] = float(file.readline().strip())
         params["gamma_shape"] = float(file.readline().strip())
