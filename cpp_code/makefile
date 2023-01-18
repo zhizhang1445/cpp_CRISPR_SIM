@@ -3,18 +3,18 @@ CXX=g++
 CXXFLAGS=-std=c++17 -O2 -g
 LDFLAGS=-O2 -g
 LDLIBS=-lgsl -lcblas -lstdc++fs -fopenmp
-all: CRISPR_wave_main CRISPR_wave_main_omp
+all: ../CRISPR_wave_main ../CRISPR_wave_main_omp
 test: main_test
 
 OBJFILES=convolution.o crispr_dyn.o init.o io.o
 
-CRISPR_wave_main: main.o $(OBJFILES) update_rules.o
+../CRISPR_wave_main: main.o $(OBJFILES) update_rules.o
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 CRISPR_wave_main.o: main.cpp parameter.h
 	$(CXX) -c $(CXXFLAGS) -o $@ $<
 
-CRISPR_wave_main_omp: omp_main.o $(OBJFILES) omp_update_rules.o
+../CRISPR_wave_main_omp: omp_main.o $(OBJFILES) omp_update_rules.o
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 CRISPR_wave_main_omp.o: omp_main.cpp parameter.h
