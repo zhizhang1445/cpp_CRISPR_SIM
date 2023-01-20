@@ -1,5 +1,5 @@
 #!/bin/bash
-Params_to_sweep="R0" #Change this
+Params_to_sweep="M" #Change this
 
 Nh=10000
 N0=2000
@@ -41,7 +41,7 @@ sweep_index=0 #do not delete this
 
 # for ((R0 = 0 ; R0 < 10 ; i++));#And change this
 # for R0 in {0..10..0.5} #Change This {start..end..step}
-for R0 in $(seq 0.00 0.5 10.0) #Change this (seq start step end)
+for M in $(seq 0 5 100) #Change this (seq start step end)
 do
     Child_dir="${Parent_dir}simulation${sweep_index}/" 
     # echo Child_dir

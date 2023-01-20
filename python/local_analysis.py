@@ -10,8 +10,10 @@ import sys
 from sklearn.mixture import GaussianMixture
 
 def load_stuff(frame_cut):
+
     params = json.load(open("_params.json"))
     sim_params = json.load(open("_sim_params.json"))
+
     try:
         frames_f = np.load("frames_f.npy")[frame_cut:]
         frames_n = np.load("frames_n.npy")[frame_cut:]
@@ -115,7 +117,10 @@ def analyzeDiffCeoff(subfolders, frame_cut):
 # current_folder = subfolders[0]
         print(current_folder)
         os.chdir(current_folder)
-        params, sim_params, frames_f, frames_n, frames_nh = load_stuff(frame_cut)
+        try:
+            params, sim_params, frames_f, frames_n, frames_nh = load_stuff(frame_cut)
+        except FileNotFoundError:
+            continue
 
         frames_nvar = []
         for frame in frames_n:
@@ -160,8 +165,10 @@ def analyzeFitDist(subfolders, frame_cut):
     # current_folder = subfolders[3]
         print(current_folder)
         os.chdir(current_folder)
-        params, sim_params, frames_f, frames_n, frames_nh = load_stuff(frame_cut)
-
+        try:
+            params, sim_params, frames_f, frames_n, frames_nh = load_stuff(frame_cut)
+        except FileNotFoundError:
+            continue
         try:
             frame = ma.array(frames_f[0], mask = (frames_n[0] == 0)).compressed()
             height, bins = np.histogram(frame, 25, range = (-1.1, 1.1))
@@ -206,7 +213,10 @@ def analyzePopulation(subfolders, frame_cut):
     for current_folder in subfolders:
         print(current_folder)
         os.chdir(current_folder)
-        params, sim_params, frames_f, frames_n, frames_nh = load_stuff(frame_cut)
+        try:
+            params, sim_params, frames_f, frames_n, frames_nh = load_stuff(frame_cut)
+        except FileNotFoundError:
+            continue
 
         N = []
         for single_n in frames_n:
@@ -227,7 +237,11 @@ def analyzeTrajectory(subfolders, frame_cut):
     for current_folder in subfolders:
         print(current_folder)
         os.chdir(current_folder)
-        params, sim_params, frames_f, frames_n, frames_nh = load_stuff(frame_cut)
+        try:
+            params, sim_params, frames_f, frames_n, frames_nh = load_stuff(frame_cut)
+        except FileNotFoundError:
+            continue
+
         try:
             frames_means, frames_cov = get_Gaussian_Fit(frames_n, params, sim_params)
 
