@@ -62,7 +62,7 @@ int update_n(rmatrix<int> n, rmatrix<double> f, Parameters& params, SimParameter
 int update_nh(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters& simparams){
     
     for (int i = 0; i < n.size(); i++){
-        nh.data()[i] = n.data()[i];
+        nh.data()[i] = nh.data()[i] + n.data()[i];
     }
 
     random_device r;
@@ -72,6 +72,11 @@ int update_nh(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters
     uniform_int_distribution<int> uni_dist(0, flat_size-1);
 
     int num_to_remove = int(accumulate(nh.begin(), nh.end(), 0) - params.M*params.Nh);
+    if (num_to_remove != params.N0){
+        cerr << "Problem with matching: \nNum to Remove: " << num_to_remove << "\n";
+        cerr << "params.N0: " << params.N0 << "\n";
+    }
+
     // int num_to_remove = int(params.M*params.Nh);
     // int num_to_remove = int(accumulate(nh.begin(), nh.end(), 0));
     for (int i = 0; i < num_to_remove; i++){
