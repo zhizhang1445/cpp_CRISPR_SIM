@@ -62,7 +62,7 @@ int update_n(rmatrix<int> n, rmatrix<double> f, Parameters& params, SimParameter
 int update_nh(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters& simparams){
     
     for (int i = 0; i < n.size(); i++){
-        nh.data()[i] = n.data()[i];
+        nh.data()[i] = nh.data()[i] + n.data()[i];
     }
 
     random_device r;
@@ -71,7 +71,8 @@ int update_nh(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters
     int flat_size = nh.size();
     uniform_int_distribution<int> uni_dist(0, flat_size-1);
 
-    int num_to_remove = int(accumulate(nh.begin(), nh.end(), 0) - params.M*params.Nh);
+    int num_to_remove = int(accumulate(n.begin(), n.end(), 0));
+
     // int num_to_remove = int(params.M*params.Nh);
     // int num_to_remove = int(accumulate(nh.begin(), nh.end(), 0));
     for (int i = 0; i < num_to_remove; i++){
@@ -83,16 +84,16 @@ int update_nh(rmatrix<int> nh, rmatrix<int> n, Parameters& params, SimParameters
         }
     }
 
-    if (num_to_remove < 0){ // More spacers than virus
-        for (int i = 0; i > num_to_remove; i--){
-            int ind_to_add = uni_dist(generator);
-            int err_code = increment_from_flat(nh, ind_to_add);
+    // if (num_to_remove < 0){ // More spacers than virus
+    //     for (int i = 0; i > num_to_remove; i--){
+    //         int ind_to_add = uni_dist(generator);
+    //         int err_code = increment_from_flat(nh, ind_to_add);
 
-            if (err_code == 2){
-                i++;
-            }
-        }
-    }
+    //         if (err_code == 2){
+    //             i++;
+    //         }
+    //     }
+    // }
     num_to_remove = int(params.M*params.Nh - accumulate(nh.begin(), nh.end(), 0));
 
     if (num_to_remove == 0){

@@ -39,7 +39,7 @@ main_test: main.cpp io.cpp update_rules.cpp init.cpp convolution.cpp
 	g++ -std=c++17 -o main_test main.cpp io.cpp init.cpp crispr_dyn.cpp update_rules.cpp convolution.cpp -lgsl -lcblas -lstdc++fs #test
 
 clean:
-	$(RM) *.o main_test CRISPR_wave_main CRISPR_wave_main_omp
+	$(RM) *.o ../CRISPR_wave_main ../CRISPR_wave_main_omp
 
 npy_clean:
 	$(RM) *.npy
