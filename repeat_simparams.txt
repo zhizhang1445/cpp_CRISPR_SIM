@@ -1,0 +1,20 @@
+10000
+2000
+0
+0
+5
+1
+10
+1
+test_simulation
+
+# Read in this order
+# xdomain
+# trange
+# init_x
+# init_y UNUSED
+# init_var
+# n_step_prior
+# ratio_exp
+# norm_f
+# outputname
