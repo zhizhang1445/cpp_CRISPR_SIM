@@ -72,6 +72,7 @@ do
     echo $Child_dir >> "${Child_dir}simparams.txt"
     echo $simparam_text >> "${Child_dir}simparams.txt"
 
+    export NUM_THREAD_OMP=64
     ./CRISPR_wave_main_omp ${Child_dir}params.txt ${Child_dir}simparams.txt
     python3 -u python/accumulateAndGif.py ${Child_dir}
     let sweep_index++
