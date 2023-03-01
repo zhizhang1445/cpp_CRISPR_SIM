@@ -2,6 +2,7 @@
 #define INIT_H
 #include <cmath>
 #include "rarray"
+#include <armadillo>
 #define PI 3.14159265
 // #include <gsl>
 #include "parameters.h"

@@ -5,6 +5,7 @@
 #include <cmath>
 #include <gsl/gsl_randist.h>
 #include <random>
+#include <armadillo>
 using namespace std;
 
 double hill_function_alpha(int d, Parameters& params);

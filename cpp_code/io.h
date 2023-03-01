@@ -3,6 +3,7 @@
 #include <experimental/filesystem>
 #include <iostream>
 #include <fstream>
+#include <armadillo>
 #include "parameters.h"
 using namespace std;
 

@@ -1,6 +1,5 @@
 #include "crispr_dyn.h"
 #include "init.h"
-#include "convolution.h"
 
 double hill_function_alpha(int d, Parameters& params){ //Hill-like function to activate the immune response
     double dc = params.dc;
@@ -45,7 +44,7 @@ int coverage(rmatrix<double> eff_p, rmatrix<int> nh, Parameters& params, SimPara
     }
     // cout << buff_nh << "\n";
     // cout << conv_kernel << "\n";
-    convolve2D(buff_nh.data(), eff_p.data(), xdomain, xdomain, conv_kernel.data(), conv_size, conv_size);
+    // convolve2D(buff_nh.data(), eff_p.data(), xdomain, xdomain, conv_kernel.data(), conv_size, conv_size);
     // cout << eff_p << "\n";
     return 0;
 };

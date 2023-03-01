@@ -1,6 +1,7 @@
 #include <fstream>
 #include <experimental/filesystem>
 #include <gsl/gsl_math.h>
+#include <armadillo>
 #include "rarray"
 #include "parameters.h"
 #include "io.h"
